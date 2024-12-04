@@ -1,0 +1,288 @@
+import random
+import time
+
+# function to show user options and ask which one they want use
+
+
+def menu():
+    time.sleep(1)
+    print('Game Center')
+    print('----------------------')
+    print('Blackjack')
+    print('Rock Paper Scissors (RPS)')
+    print('Dice')
+    print('Exit')
+    print(' ')
+    pick_game = input('What would you like to do? ')
+    if pick_game.lower() == 'blackjack':
+        blackjack()
+    elif pick_game.lower() == 'rps':
+        time.sleep(1)
+        rps()
+    elif pick_game.lower() == 'dice':
+        time.sleep(1)
+        dice()
+    elif pick_game.lower() == 'exit':
+        time.sleep(1)
+        print('Thanks for playing, goodbye!')
+    else:
+        time.sleep(1)
+        print('You did not select one of the games above. Please try again.')
+        menu()
+
+
+# function to ask player if they want to keep playing blackjack
+
+
+def play_again_blackjack():
+    replay_blackjack = input('Do you want to play again? ')
+    if replay_blackjack.lower() == 'yes':
+        time.sleep(1)
+        blackjack()
+    if replay_blackjack.lower() == 'no':
+        time.sleep(1)
+        print('Thanks for playing.')
+        menu()
+
+# dice game where user and computer get 2 turns to roll a dice
+# player with greater sum wins
+
+
+def dice():
+    time.sleep(1)
+    print('Welcome to the Dice game.')
+    time.sleep(1)
+    print('You and a computer will have 2 turns to roll a dice.')
+    time.sleep(1)
+    print('Whoever has the greater sum after 2 turns wins!')
+    time.sleep(4)
+    user_dice1 = random.randint(1, 6)
+    print(f'You rolled a {user_dice1}.')
+    time.sleep(2)
+    computer_dice1 = random.randint(1, 6)
+    print(f'The computer rolled a {computer_dice1}.')
+    time.sleep(2)
+    user_dice2 = random.randint(1, 6)
+    print(f'You rolled a {user_dice2}.')
+    time.sleep(2)
+    computer_dice2 = random.randint(1, 6)
+    print(f'The computer rolled a {computer_dice2}.')
+    time.sleep(2)
+    user_dice_sum = int(user_dice1) + int(user_dice2)
+    computer_dice_sum = int(computer_dice1) + int(computer_dice2)
+    if user_dice_sum == computer_dice_sum:
+        print(f"You both had {user_dice_sum}. It's a draw")
+    elif user_dice_sum > computer_dice_sum:
+        print(f'You had {user_dice_sum}.')
+        time.sleep(1)
+        print(f'The computer had {computer_dice_sum}.')
+        time.sleep(1)
+        print('You win!')
+    else:
+        print(f'You had {user_dice_sum}.')
+        time.sleep(1)
+        print(f'The computer had {computer_dice_sum}.')
+        time.sleep(1)
+        print('The computer wins!')
+    time.sleep(1)
+    play_again_dice = input('Would you like to play again? ').lower()
+    if play_again_dice == 'yes':
+        dice()
+    else:
+        time.sleep(1)
+        print('Thank you for playing!')
+        menu()
+
+# function to play rock paper scissors with random choices
+
+
+def rps():
+    rps_choices = ['rock', 'paper', 'scissors']
+    time.sleep(1)
+    print('Welcome to Rock, Paper, Scissors!')
+    time.sleep(1)
+    user_rps_choice = input('Choose one: ').lower()
+    computer_rps_choice = random.choice(rps_choices)
+    print(f'You chose {user_rps_choice}.')
+    time.sleep(1)
+    print(f'The computer chose {computer_rps_choice}.')
+    time.sleep(1)
+    if user_rps_choice == computer_rps_choice:
+        print("It's a tie!")
+    elif user_rps_choice == 'rock' and computer_rps_choice == 'scissors':
+        print('You win!')
+    elif user_rps_choice == 'scissors' and computer_rps_choice == 'paper':
+        print('You win!')
+    elif user_rps_choice == 'paper' and computer_rps_choice == 'rock':
+        print('You win!')
+    else:
+        print('Computer wins!')
+    time.sleep(1)
+    rps_play_again = input('Do you want to play again? ')
+    if rps_play_again.lower() == 'yes':
+        rps()
+    elif rps_play_again.lower() == 'no':
+        print('Thanks for playing!')
+        time.sleep(1)
+        menu()
+
+
+def blackjack():
+
+    # start the game with the player and dealer getting 2 cards
+    # show both player cards and add them together,
+    # show only 1 dealer card and add them together.
+
+    cards = [
+        'Ace',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        'Jack',
+        'Queen',
+        'King'
+    ]
+    user_hand1 = random.choice(cards)
+    user_hand2 = random.choice(cards)
+    dealer_hand1 = random.choice(cards)
+    dealer_hand2 = random.choice(cards)
+    user_hand = [user_hand1, user_hand2]
+    dealer_hand = [dealer_hand1, dealer_hand2]
+    print('Welcome to Blackjack!')
+    time.sleep(1)
+    print(f'Your starting hand is a {user_hand1} and a {user_hand2}.')
+    time.sleep(1)
+    print(f"The dealer's starting card is a {dealer_hand1}.")
+    time.sleep(1)
+    print("The dealer's second card is face down and isn't shown.")
+    time.sleep(1)
+
+    # ask user if he wants to draw another card (hit) or stand
+    # if hit, draw another card and add it to user's total
+    # repeat until user busts over 21, reaches 21, or decides to stand
+    # if user busts over 21, he automatically loses
+    # if user equals 21, that is blackjack and he wins
+    # if user stands under 21, dealer shows 2nd card
+    # dealer draws cards until he busts or if sum is under 17
+    # if user sum is greater than dealer, user wins
+    # if user sum and dealer sum are equal, they tie
+    # if user sum is less than dealer sum and both are under 21, dealer wins
+    # after result, ask if user wants to play again
+
+    card_sum = 0
+    for user_card in user_hand:
+        if user_card in ['Jack', 'Queen', 'King']:
+            card_sum += 10
+        elif user_card == 'Ace':
+            ace_value = input('You drew an Ace, 1 or 11? ')
+            if ace_value == '11':
+                card_sum += 11
+            else:
+                card_sum += 1
+        else:
+            card_sum += int(user_card)
+    while True:
+        time.sleep(1)
+        if card_sum == 21:
+            time.sleep(1)
+            print('You got blackjack. You win!.')
+            play_again_blackjack()
+            break
+        user_action = input(f'You have {card_sum}. Hit or stand? ')
+        if user_action == 'hit':
+            user_new_card = random.choice(cards)
+            user_hand.append(user_new_card)
+            time.sleep(1)
+            print(f'You drew a {user_new_card}.')
+            if user_new_card in ['Jack', 'Queen', 'King']:
+                card_sum += 10
+            elif user_new_card == 'Ace':
+                ace_value2 = input('You drew an Ace, 1 or 11? ')
+                if ace_value2 == '11':
+                    card_sum += 11
+                else:
+                    card_sum += 1
+            else:
+                card_sum += int(user_new_card)
+            if card_sum > 21:
+                time.sleep(1)
+                print(f'You have {card_sum} so you busted.')
+                time.sleep(1)
+                play_again_blackjack()
+                break
+            elif card_sum == 21:
+                time.sleep(1)
+                print(f'You have {card_sum} so you got blackjack. You win!')
+                time.sleep(1)
+                play_again_blackjack()
+                break
+        elif user_action == 'stand':
+            dealer_sum = 0
+            for card in dealer_hand:
+                if card in ['Jack', 'Queen', 'King']:
+                    dealer_sum += 10
+                elif card == 'Ace':
+                    dealer_sum += 11
+                else:
+                    dealer_sum += int(card)
+
+            time.sleep(1)
+            print(f'Dealer has {dealer_sum}.')
+
+            while dealer_sum < 17:
+                dealer_new_card = random.choice(cards)
+                dealer_hand.append(dealer_new_card)
+                if dealer_new_card in ['Jack', 'Queen', 'King']:
+                    dealer_sum += 10
+                elif dealer_new_card == 'Ace':
+                    if dealer_sum + 11 > 21:
+                        dealer_sum += 1
+                    else:
+                        dealer_sum += 11
+                else:
+                    dealer_sum += int(dealer_new_card)
+
+                time.sleep(1)
+                print(f'Dealer drew a {dealer_new_card} and has {dealer_sum}.')
+
+            if dealer_sum > 21:
+                time.sleep(1)
+                print(f'The dealer has {dealer_sum} so they busted. You win!')
+                play_again_blackjack()
+                break
+
+            if dealer_sum == 21:
+                time.sleep(1)
+                print('The dealer got blackjack. Dealer wins!')
+                play_again_blackjack()
+                break
+
+            if dealer_sum <= 21 and dealer_sum > card_sum:
+                time.sleep(1)
+                print(f'Dealer has {dealer_sum} and you have {card_sum}.')
+                time.sleep(1)
+                print('Dealer wins!')
+                play_again_blackjack()
+                break
+            elif dealer_sum == card_sum:
+                time.sleep(1)
+                print(f"You both had {dealer_sum}. It's a tie!")
+                play_again_blackjack()
+                break
+            elif dealer_sum < card_sum:
+                time.sleep(1)
+                print(f'You have {card_sum} and the dealer has {dealer_sum}.')
+                time.sleep(1)
+                print('You win!')
+                play_again_blackjack()
+                break
+            break
+
+
+menu()
